@@ -1,3 +1,7 @@
 demo/bin/*.dll
 demo/bin/*.exp
 demo/bin/*.lib
+
+# Ignore the .obj created from builds
+src/*.obj
+src/**/*.obj
