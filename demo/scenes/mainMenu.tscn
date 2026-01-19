@@ -1,12 +1,34 @@
-[gd_scene load_steps=3 format=3 uid="uid://26br2w1vm3as"]
+[gd_scene load_steps=4 format=3 uid="uid://26br2w1vm3as"]
 
 [ext_resource type="Texture2D" uid="uid://cggl4xtf42xn7" path="res://assets/PaperUIKit/Buttons/MediumButtons/ButtonMediumWhiteActive.png" id="1_wut1r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qkhwq"]
+font_size = 48
+font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_wut1r"]
 font_size = 48
 font_color = Color(0, 0, 0, 1)
 
 [node name="MenuManager" type="MenuManager"]
+
+[node name="LoadGame" type="Btn_LoadScene" parent="."]
+scene = "game"
+offset_left = -10.0
+offset_top = 166.0
+offset_right = 398.0
+offset_bottom = 324.0
+scale = Vector2(0.7, 0.7)
+texture_normal = ExtResource("1_wut1r")
+
+[node name="Label" type="Label" parent="LoadGame"]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 29.0
+offset_right = 245.0
+offset_bottom = 96.0
+text = "Start"
+label_settings = SubResource("LabelSettings_qkhwq")
 
 [node name="LoadScene" type="Btn_LoadScene" parent="."]
 scene = "optionsMenu"

@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://by13dwjw50k57"]
+
+[node name="GameManager" type="GameManager"]

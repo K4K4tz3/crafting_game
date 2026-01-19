@@ -1,3 +1,5 @@
 res://mainMenu.tscn
 res://scenes/optionsMenu.tscn
 res://scenes/mainMenu.tscn
+res://scenes/game.tscn
+res://prefab/player.tscn

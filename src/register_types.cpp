@@ -1,8 +1,9 @@
 #include "register_types.h"
 
-#include "gdexample.h"
 #include "menu/menuManager.h"
 #include "menu/btn_loadScene.h"
+#include "manager/gameManager.h"
+#include "player/playerController.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
@@ -15,9 +16,15 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 		return;
 	}
 
-	GDREGISTER_RUNTIME_CLASS(GDExample);
+	// Managers
 	GDREGISTER_RUNTIME_CLASS(MenuManager);
+	GDREGISTER_RUNTIME_CLASS(GameManager);
+
+	// Menu Utils
 	GDREGISTER_RUNTIME_CLASS(Btn_LoadScene);
+
+	// Player
+	GDREGISTER_RUNTIME_CLASS(PlayerController);
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {
