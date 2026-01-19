@@ -42,8 +42,12 @@ void Btn_LoadScene::_bind_methods() {
 //
 
 void Btn_LoadScene::on_pressed() {
-    print_line("Close Game");
-    get_tree()->quit();
+    if (state == "exit") {
+        print_line("Close Game");
+        get_tree()->quit();
+    } else if (scene != "") {
+        get_tree()->change_scene_to_file("scenes/" + scene + ".tscn");
+    }
 }
 
 void Btn_LoadScene::setState(String a_state) {

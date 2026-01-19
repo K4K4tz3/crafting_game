@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://b77dmxqcblmbw"]
+
+[ext_resource type="Texture2D" uid="uid://cggl4xtf42xn7" path="res://assets/PaperUIKit/Buttons/MediumButtons/ButtonMediumWhiteActive.png" id="1_2ev6r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wut1r"]
+font_size = 48
+font_color = Color(0, 0, 0, 1)
+
+[node name="MenuManager" type="MenuManager"]
+
+[node name="LoadScene" type="Btn_LoadScene" parent="."]
+scene = "optionsMenu"
+offset_left = -5.0
+offset_top = 267.0
+offset_right = 403.0
+offset_bottom = 425.0
+scale = Vector2(0.7, 0.7)
+texture_normal = ExtResource("1_2ev6r")
+
+[node name="Label" type="Label" parent="LoadScene"]
+layout_mode = 0
+offset_left = 115.714
+offset_top = 28.5715
+offset_right = 298.714
+offset_bottom = 95.5715
+text = "Options"
+label_settings = SubResource("LabelSettings_wut1r")
+
+[node name="Quit" type="Btn_LoadScene" parent="."]
+scene = "mainMenu"
+offset_left = -4.0
+offset_top = 371.0
+offset_right = 404.0
+offset_bottom = 529.0
+scale = Vector2(0.7, 0.7)
+texture_normal = ExtResource("1_2ev6r")
+
+[node name="Label" type="Label" parent="Quit"]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 29.0
+offset_right = 245.0
+offset_bottom = 96.0
+text = "Back"
+label_settings = SubResource("LabelSettings_wut1r")
