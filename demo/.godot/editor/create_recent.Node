@@ -1,3 +1,6 @@
+Camera3D
+MeshInstance3D
+TextureRect
 PlayerController
 GameManager
 Label

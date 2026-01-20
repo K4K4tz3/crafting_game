@@ -44,6 +44,7 @@ void GameManager::_ready() {
     if (player_prefab->can_instantiate()) {
         print_line("Instantiate Player");
         Node *instance = player_prefab->instantiate();
+
         add_child(instance);
     }
     else
