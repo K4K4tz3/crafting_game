@@ -17,6 +17,9 @@ class PlayerController : public Node3D {
 private:
     Camera3D* m_camera = nullptr;
 
+    // debug
+    bool m_showMouseMotion = false;
+
 protected:
     static void _bind_methods();
 
@@ -26,6 +29,9 @@ public:
 
     void _ready() override;
     void _input(const Ref<InputEvent> &a_event);
+
+    void setMouseDebugState(const bool a_debugState);
+    bool getMouseDebugState() const;
 };
 
 }
