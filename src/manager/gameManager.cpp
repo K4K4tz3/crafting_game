@@ -8,9 +8,8 @@
 
 using namespace godot;
 
-//
-// Con-/Destructor
-//
+#pragma region Con-/Destructor
+
 GameManager::GameManager() {
 
 }
@@ -18,17 +17,18 @@ GameManager::~GameManager() {
 
 }
 
-//
-// Protected Functions
-//
+#pragma endregion
+
+#pragma region Protected Methods
+
 void GameManager::_bind_methods() {
 
 }
 
+#pragma endregion
 
-//
-// Public Functions
-//
+#pragma region Override Methods
+
 void GameManager::_ready() {
     print_line("GameManager is ready");
     print_line("Attempting to spawn player...");
@@ -50,3 +50,5 @@ void GameManager::_ready() {
     else
         print_error("Failed to Instantiate Player");
 }
+
+#pragma endregion

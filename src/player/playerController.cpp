@@ -4,9 +4,8 @@
 
 using namespace godot;
 
-//
-// Con-/Destructor
-//
+#pragma region Con-/Destructor
+
 PlayerController::PlayerController() {
 
 }
@@ -14,9 +13,9 @@ PlayerController::~PlayerController() {
 
 }
 
-//
-// Protected Methods
-//
+#pragma endregion
+
+#pragma region Protected Methods
 
 void PlayerController::_bind_methods() {
     ClassDB::bind_method(D_METHOD("setMouseDebugState", "m_showMouseMotion"), &PlayerController::setMouseDebugState);
@@ -33,9 +32,9 @@ void PlayerController::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Horizontal Mouse Speed"), "setHorizontalMouseSpeed", "getHorizontalMouseSpeed");
 }
 
-//
-// Override Methods
-//
+#pragma endregion
+
+#pragma region Override Methods
 
 void PlayerController::_ready() {
     set_position({0, 1, 0});
@@ -83,9 +82,10 @@ void PlayerController::_input(const Ref<InputEvent> &a_event) {
     }
 }
 
-//
-// Getter/Setter Methods
-//
+#pragma endregion
+
+#pragma region Getter/Setter
+
 void PlayerController::setMouseDebugState(const bool a_debugState) {
     m_showMouseMotion = a_debugState;
 }
@@ -107,15 +107,14 @@ float PlayerController::getHorizontalMouseSpeed() const {
     return m_horizontalMouseSpeed;
 }
 
-// 
-// Movement control
-//
+#pragma endregion
+
+#pragma region Movement Control
+
 void PlayerController::handleCamera(const double delta) {
     if (!m_enableMovement)
         return;
 
-    if (m_showMouseMotion) // debug mouse motion
-        UtilityFunctions::print("X: ", m_mouseInput.x, " Y: ", m_mouseInput.y);
     // Set horizontal rotation
     Vector3 rotation_main = get_rotation();
     rotation_main.y += Math::deg_to_rad(-m_mouseInput.x * m_horizontalMouseSpeed * delta);
@@ -124,5 +123,8 @@ void PlayerController::handleCamera(const double delta) {
     // Set vertical rotation
     Vector3 rotation_camera = m_camera->get_rotation();
     rotation_camera.x += Math::deg_to_rad(-m_mouseInput.y * m_verticalMouseSpeed * delta);
+    rotation_camera.x = Math::clamp(rotation_camera.x, -30.0f, 90.0f);
     m_camera->set_rotation(rotation_camera);
 }
+
+#pragma endregion
