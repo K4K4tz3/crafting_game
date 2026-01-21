@@ -53,7 +53,11 @@ void PlayerController::_ready() {
 }
 
 void PlayerController::_process(double delta) {
-    handleCamera(delta);
+    if (m_mouseInput != Vector2{}) {
+        handleCamera(delta);
+
+        m_mouseInput = Vector2{};
+    }
 }
 
 void PlayerController::_input(const Ref<InputEvent> &a_event) {
@@ -61,8 +65,7 @@ void PlayerController::_input(const Ref<InputEvent> &a_event) {
     if (mouseMotion.is_valid()) {
         m_mouseInput = mouseMotion->get_relative();
 
-        if (m_showMouseMotion) // debug mouse motion
-            UtilityFunctions::print("X: ", m_mouseInput.x, " Y: ", m_mouseInput.y);
+
     }
 
     Ref<InputEventKey> keyEvent = a_event;
@@ -111,13 +114,15 @@ void PlayerController::handleCamera(const double delta) {
     if (!m_enableMovement)
         return;
 
+    if (m_showMouseMotion) // debug mouse motion
+        UtilityFunctions::print("X: ", m_mouseInput.x, " Y: ", m_mouseInput.y);
     // Set horizontal rotation
     Vector3 rotation_main = get_rotation();
-    rotation_main.y += Math::deg_to_rad(m_mouseInput.x * m_horizontalMouseSpeed * delta);
+    rotation_main.y += Math::deg_to_rad(-m_mouseInput.x * m_horizontalMouseSpeed * delta);
     set_rotation(rotation_main);
 
     // Set vertical rotation
     Vector3 rotation_camera = m_camera->get_rotation();
-    rotation_camera.x += Math::deg_to_rad(m_mouseInput.y * m_verticalMouseSpeed * delta);
+    rotation_camera.x += Math::deg_to_rad(-m_mouseInput.y * m_verticalMouseSpeed * delta);
     m_camera->set_rotation(rotation_camera);
 }
