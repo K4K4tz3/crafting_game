@@ -23,6 +23,7 @@ void PlayerController::_bind_methods() {
 
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "showMouseMotion"), "setMouseDebugState", "getMouseDebugState");
 
+    // Mouse Speed
     ClassDB::bind_method(D_METHOD("setVerticalMouseSpeed", "m_verticalMouseSpeed"), &PlayerController::setVerticalMouseSpeed);
     ClassDB::bind_method(D_METHOD("getVerticalMouseSpeed"), &PlayerController::getVerticalMouseSpeed);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Vertical Mouse Speed"), "setVerticalMouseSpeed", "getVerticalMouseSpeed");
@@ -30,6 +31,15 @@ void PlayerController::_bind_methods() {
     ClassDB::bind_method(D_METHOD("setHorizontalMouseSpeed", "m_horizontalMouseSpeed"), &PlayerController::setHorizontalMouseSpeed);
     ClassDB::bind_method(D_METHOD("getHorizontalMouseSpeed"), &PlayerController::getHorizontalMouseSpeed);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Horizontal Mouse Speed"), "setHorizontalMouseSpeed", "getHorizontalMouseSpeed");
+
+    // Vertical Camera Clamp
+    ClassDB::bind_method(D_METHOD("setVerticalRotationMin", "m_verticalRotationMin"), &PlayerController::setVerticalRotationMin);
+    ClassDB::bind_method(D_METHOD("getVerticalRotationMin"), &PlayerController::getVerticalRotationMin);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Vertical Rotation Clamp Min"), "setVerticalRotationMin", "getVerticalRotationMin");
+
+    ClassDB::bind_method(D_METHOD("setVerticalRotationMax", "m_verticalRotationMax"), &PlayerController::setVerticalRotationMax);
+    ClassDB::bind_method(D_METHOD("getVerticalRotationMax"), &PlayerController::getVerticalRotationMax);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Vertical Rotation Clamp Max"), "setVerticalRotationMax", "getVerticalRotationMax");
 }
 
 #pragma endregion
@@ -107,6 +117,20 @@ float PlayerController::getHorizontalMouseSpeed() const {
     return m_horizontalMouseSpeed;
 }
 
+void PlayerController::setVerticalRotationMin(const float a_float) {
+    m_verticalRotationMin = a_float;
+}
+float PlayerController::getVerticalRotationMin() const {
+    return m_verticalRotationMin;
+}
+
+void PlayerController::setVerticalRotationMax(const float a_float) {
+    m_verticalRotationMax = a_float;
+}
+float PlayerController::getVerticalRotationMax() const {
+    return m_verticalRotationMax;
+}
+
 #pragma endregion
 
 #pragma region Movement Control
@@ -123,7 +147,7 @@ void PlayerController::handleCamera(const double delta) {
     // Set vertical rotation
     Vector3 rotation_camera = m_camera->get_rotation();
     rotation_camera.x += Math::deg_to_rad(-m_mouseInput.y * m_verticalMouseSpeed * delta);
-    rotation_camera.x = Math::clamp(rotation_camera.x, -30.0f, 90.0f);
+    rotation_camera.x = Math::deg_to_rad(Math::clamp(Math::rad_to_deg(rotation_camera.x), m_verticalRotationMin, m_verticalRotationMax));
     m_camera->set_rotation(rotation_camera);
 }
 

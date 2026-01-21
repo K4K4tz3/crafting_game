@@ -29,6 +29,9 @@ private:
     float m_verticalMouseSpeed = 10.0f;
     float m_horizontalMouseSpeed = 10.0f;
 
+    float m_verticalRotationMax = 90.0f;
+    float m_verticalRotationMin = -30.0f;
+
 
     bool m_enableMovement = true;
     Vector2 m_mouseInput = {0, 0};
@@ -53,6 +56,11 @@ public:
     float getVerticalMouseSpeed() const;
     void setHorizontalMouseSpeed(const float a_mouseSpeed);
     float getHorizontalMouseSpeed() const;
+
+    void setVerticalRotationMin(const float a_float);
+    float getVerticalRotationMin() const;
+    void setVerticalRotationMax(const float a_float);
+    float getVerticalRotationMax() const;
 };
 
 }
