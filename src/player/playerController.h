@@ -36,11 +36,13 @@ private:
 
     float m_forwardSpeed = 10.0f;
     float m_sideSpeed = 10.0f;
+    float m_verticalSpeed = 10.0f;
+    float m_fallSpeed = 10.0f;
 
 
-    bool m_enableMovement = true;
+    bool m_disableMove = false;
     Vector2 m_mouseInput = Vector2{};
-    Vector2 m_wasdInput = Vector2{};
+    Vector3 m_wasdInput = Vector3{};
 
     void handleCamera(const double delta);
     void handleMove(const double delta);
@@ -76,6 +78,8 @@ public:
     float getForwardSpeed() const;
     void setSideSpeed(const float a_speed);
     float getSideSpeed() const;
+    void setVerticalSpeed(const float a_speed);
+    float getVerticalSpeed() const;
 };
 
 }

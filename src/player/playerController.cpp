@@ -49,6 +49,10 @@ void PlayerController::_bind_methods() {
     ClassDB::bind_method(D_METHOD("setSideSpeed", "m_sideSpeed"), &PlayerController::setSideSpeed);
     ClassDB::bind_method(D_METHOD("getSideSpeed"), &PlayerController::getSideSpeed);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Side Speed"), "setSideSpeed", "getSideSpeed");
+
+    ClassDB::bind_method(D_METHOD("setVerticalSpeed", "m_verticalSpeed"), &PlayerController::setVerticalSpeed);
+    ClassDB::bind_method(D_METHOD("getVerticalSpeed"), &PlayerController::getVerticalSpeed);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Vertical Speed"), "setVerticalSpeed", "getVerticalSpeed");
 }
 
 #pragma endregion
@@ -99,7 +103,7 @@ void PlayerController::_input(const Ref<InputEvent> &a_event) {
             else {
                 Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_CAPTURED);
             }
-            m_enableMovement = !m_enableMovement;
+            m_disableMove = !m_disableMove;
         }
     }
 }
@@ -157,12 +161,19 @@ float PlayerController::getSideSpeed() const {
     return m_sideSpeed;
 }
 
+void PlayerController::setVerticalSpeed(const float a_speed) {
+    m_verticalSpeed = a_speed;
+}
+float PlayerController::getVerticalSpeed() const {
+    return m_verticalSpeed;
+}
+
 #pragma endregion
 
 #pragma region Movement Control
 
 void PlayerController::handleCamera(const double delta) {
-    if (!m_enableMovement)
+    if (m_disableMove)
         return;
 
     // Set horizontal rotation
@@ -178,16 +189,23 @@ void PlayerController::handleCamera(const double delta) {
 }
 
 void PlayerController::handleMove(const double delta) {
+    if (m_disableMove)
+        return;
+
     m_wasdInput.x = Input::get_singleton()->get_action_strength("move_forward") - Input::get_singleton()->get_action_strength("move_backward");
     m_wasdInput.y = Input::get_singleton()->get_action_strength("move_left") - Input::get_singleton()->get_action_strength("move_right");
+    m_wasdInput.z = Input::get_singleton()->get_action_strength("creative_up") - Input::get_singleton()->get_action_strength("creative_down");
     UtilityFunctions::print("Movement Input: X ( ", m_wasdInput.x, " )", " Y ( ", m_wasdInput.y, " )");
+
     // calculate & set velocity
     Vector3 forward = -get_global_transform().basis.get_column(2);
     Vector3 right = -get_global_transform().basis.get_column(0);
+    Vector3 down = -get_global_transform().basis.get_column(1);
     Vector3 velocity = get_velocity();
 
-    velocity = ((forward * m_wasdInput.x * m_forwardSpeed) + (right * m_wasdInput.y * m_sideSpeed)) * delta;
+    velocity = ((forward * m_wasdInput.x * m_forwardSpeed) + (right * m_wasdInput.y * m_sideSpeed) + (down * m_wasdInput.z * m_fallSpeed)) * delta;
     UtilityFunctions::print("Velocity: ", velocity);
+
     set_velocity(velocity);
     move_and_slide();
 }
@@ -211,12 +229,18 @@ void PlayerController::setupDefaultInputs() {
         inputMap->add_action("move_left");
     if (!inputMap->has_action("move_right")) 
         inputMap->add_action("move_right");
+    if (!inputMap->has_action("creative_up"))
+        inputMap->add_action("creative_up");
+    if (!inputMap->has_action("creative_down"))
+        inputMap->add_action("creative_down");
 
     // Add keys to actions
     inputMap->action_add_event("move_forward", makeKey(Key::KEY_E));
     inputMap->action_add_event("move_backward", makeKey(Key::KEY_D));
     inputMap->action_add_event("move_left", makeKey(Key::KEY_S));
     inputMap->action_add_event("move_right", makeKey(Key::KEY_F));
+    inputMap->action_add_event("creative_up", makeKey(Key::KEY_CTRL));
+    inputMap->action_add_event("creative_down", makeKey(Key::KEY_SPACE));
 }
 
 #pragma endregion

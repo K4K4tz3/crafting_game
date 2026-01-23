@@ -1,8 +1,14 @@
-[gd_scene format=3 uid="uid://cxfdm07a3n02f"]
+[gd_scene load_steps=2 format=3 uid="uid://cxfdm07a3n02f"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vt3hn"]
 
 [node name="PlayerController" type="PlayerController"]
 "Vertical Rotation Clamp Min" = -50.0
 "Forward Speed" = 100.0
-"Side Speed" = 50.0
+"Side Speed" = 75.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.799857, -0.0114021, 0.00996356, 0.0118251, 0.799157, -0.0347599, -0.00945763, 0.034901, 0.799182, 0, 0, 0)
+shape = SubResource("SphereShape3D_vt3hn")
