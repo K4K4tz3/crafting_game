@@ -40,6 +40,15 @@ void PlayerController::_bind_methods() {
     ClassDB::bind_method(D_METHOD("setVerticalRotationMax", "m_verticalRotationMax"), &PlayerController::setVerticalRotationMax);
     ClassDB::bind_method(D_METHOD("getVerticalRotationMax"), &PlayerController::getVerticalRotationMax);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Vertical Rotation Clamp Max"), "setVerticalRotationMax", "getVerticalRotationMax");
+
+    // Move Speed
+    ClassDB::bind_method(D_METHOD("setFowardSpeed", "m_forwardSpeed"), &PlayerController::setFowardSpeed);
+    ClassDB::bind_method(D_METHOD("getForwardSpeed"), &PlayerController::getForwardSpeed);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Forward Speed"), "setFowardSpeed", "getForwardSpeed");
+
+    ClassDB::bind_method(D_METHOD("setSideSpeed", "m_sideSpeed"), &PlayerController::setSideSpeed);
+    ClassDB::bind_method(D_METHOD("getSideSpeed"), &PlayerController::getSideSpeed);
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "Side Speed"), "setSideSpeed", "getSideSpeed");
 }
 
 #pragma endregion
@@ -58,14 +67,20 @@ void PlayerController::_ready() {
 
     Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_CAPTURED);
 
-    set_process(true);
+    set_physics_process(true);
 }
 
-void PlayerController::_process(double delta) {
+void PlayerController::_physics_process(double delta) {
     if (m_mouseInput != Vector2{}) {
         handleCamera(delta);
 
         m_mouseInput = Vector2{};
+    }
+
+    if (m_wasdInput != Vector2{}) {
+        handleMove(delta);
+
+        m_wasdInput = Vector2{};
     }
 }
 
@@ -79,6 +94,7 @@ void PlayerController::_input(const Ref<InputEvent> &a_event) {
 
     Ref<InputEventKey> keyEvent = a_event;
     if (keyEvent.is_valid() && keyEvent->is_pressed()) {
+        // Get Escape button -> enable disable movment
         if (keyEvent->get_keycode() == Key::KEY_ESCAPE) {
             Input::MouseMode mode = Input::get_singleton()->get_mouse_mode();
             if (mode == Input::MOUSE_MODE_CAPTURED) {
@@ -89,6 +105,19 @@ void PlayerController::_input(const Ref<InputEvent> &a_event) {
             }
             m_enableMovement = !m_enableMovement;
         }
+
+        // get wasd movement
+        m_wasdInput = Vector2{};
+        if (keyEvent->get_keycode() == Key::KEY_E)
+            m_wasdInput.x += 1;
+        if (keyEvent->get_keycode() == Key::KEY_D)
+            m_wasdInput.x += -1;
+        if (keyEvent->get_keycode() == Key::KEY_S)
+            m_wasdInput.y += 1;
+        if (keyEvent->get_keycode() == Key::KEY_F)
+            m_wasdInput.y += -1;
+
+        UtilityFunctions::print("X: ", m_wasdInput.x, " Y: ", m_wasdInput.y);
     }
 }
 
@@ -131,6 +160,20 @@ float PlayerController::getVerticalRotationMax() const {
     return m_verticalRotationMax;
 }
 
+void PlayerController::setFowardSpeed(const float a_speed) {
+    m_forwardSpeed = a_speed;
+}
+float PlayerController::getForwardSpeed() const {
+    return m_forwardSpeed;
+}
+
+void PlayerController::setSideSpeed(const float a_speed) {
+    m_sideSpeed = a_speed;
+}
+float PlayerController::getSideSpeed() const {
+    return m_sideSpeed;
+}
+
 #pragma endregion
 
 #pragma region Movement Control
@@ -149,6 +192,17 @@ void PlayerController::handleCamera(const double delta) {
     rotation_camera.x += Math::deg_to_rad(-m_mouseInput.y * m_verticalMouseSpeed * delta);
     rotation_camera.x = Math::deg_to_rad(Math::clamp(Math::rad_to_deg(rotation_camera.x), m_verticalRotationMin, m_verticalRotationMax));
     m_camera->set_rotation(rotation_camera);
+}
+
+void PlayerController::handleMove(const double delta) {
+    Vector3 forward = -get_global_transform().basis.get_column(2);
+    Vector3 right = -get_global_transform().basis.get_column(0);
+    Vector3 velocity = get_velocity();
+
+    velocity = ((forward * m_wasdInput.x * m_forwardSpeed) + (right * m_wasdInput.y * m_sideSpeed)) * delta;
+    UtilityFunctions::print("Velocity: ", velocity);
+    set_velocity(velocity);
+    move_and_slide();
 }
 
 #pragma endregion

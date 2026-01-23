@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cxfdm07a3n02f"]
 
 [node name="PlayerController" type="PlayerController"]
-showMouseMotion = true
-transform = Transform3D(1, 0, 0, 0, 1, 1.74846e-07, 0, -1.74846e-07, 1, 0, 0, 0)
+"Vertical Rotation Clamp Min" = -50.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
