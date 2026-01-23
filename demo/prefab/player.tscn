@@ -2,5 +2,7 @@
 
 [node name="PlayerController" type="PlayerController"]
 "Vertical Rotation Clamp Min" = -50.0
+"Forward Speed" = 100.0
+"Side Speed" = 50.0
 
 [node name="Camera3D" type="Camera3D" parent="."]

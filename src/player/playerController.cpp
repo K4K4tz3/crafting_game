@@ -7,7 +7,7 @@ using namespace godot;
 #pragma region Con-/Destructor
 
 PlayerController::PlayerController() {
-
+    setupDefaultInputs();
 }
 PlayerController::~PlayerController() {
 
@@ -77,11 +77,7 @@ void PlayerController::_physics_process(double delta) {
         m_mouseInput = Vector2{};
     }
 
-    if (m_wasdInput != Vector2{}) {
-        handleMove(delta);
-
-        m_wasdInput = Vector2{};
-    }
+    handleMove(delta);
 }
 
 void PlayerController::_input(const Ref<InputEvent> &a_event) {
@@ -105,19 +101,6 @@ void PlayerController::_input(const Ref<InputEvent> &a_event) {
             }
             m_enableMovement = !m_enableMovement;
         }
-
-        // get wasd movement
-        m_wasdInput = Vector2{};
-        if (keyEvent->get_keycode() == Key::KEY_E)
-            m_wasdInput.x += 1;
-        if (keyEvent->get_keycode() == Key::KEY_D)
-            m_wasdInput.x += -1;
-        if (keyEvent->get_keycode() == Key::KEY_S)
-            m_wasdInput.y += 1;
-        if (keyEvent->get_keycode() == Key::KEY_F)
-            m_wasdInput.y += -1;
-
-        UtilityFunctions::print("X: ", m_wasdInput.x, " Y: ", m_wasdInput.y);
     }
 }
 
@@ -195,6 +178,10 @@ void PlayerController::handleCamera(const double delta) {
 }
 
 void PlayerController::handleMove(const double delta) {
+    m_wasdInput.x = Input::get_singleton()->get_action_strength("move_forward") - Input::get_singleton()->get_action_strength("move_backward");
+    m_wasdInput.y = Input::get_singleton()->get_action_strength("move_left") - Input::get_singleton()->get_action_strength("move_right");
+    UtilityFunctions::print("Movement Input: X ( ", m_wasdInput.x, " )", " Y ( ", m_wasdInput.y, " )");
+    // calculate & set velocity
     Vector3 forward = -get_global_transform().basis.get_column(2);
     Vector3 right = -get_global_transform().basis.get_column(0);
     Vector3 velocity = get_velocity();
@@ -203,6 +190,33 @@ void PlayerController::handleMove(const double delta) {
     UtilityFunctions::print("Velocity: ", velocity);
     set_velocity(velocity);
     move_and_slide();
+}
+
+Ref<InputEventKey> PlayerController::makeKey(const Key a_keycode) {
+    Ref<InputEventKey> event;
+    event.instantiate();
+    event->set_keycode(a_keycode);
+    return event;
+}
+
+void PlayerController::setupDefaultInputs() {
+    InputMap* inputMap = InputMap::get_singleton();
+
+    // create missing functions
+    if (!inputMap->has_action("move_forward")) 
+        inputMap->add_action("move_forward");
+    if (!inputMap->has_action("move_backward")) 
+        inputMap->add_action("move_backward");
+    if (!inputMap->has_action("move_left")) 
+        inputMap->add_action("move_left");
+    if (!inputMap->has_action("move_right")) 
+        inputMap->add_action("move_right");
+
+    // Add keys to actions
+    inputMap->action_add_event("move_forward", makeKey(Key::KEY_E));
+    inputMap->action_add_event("move_backward", makeKey(Key::KEY_D));
+    inputMap->action_add_event("move_left", makeKey(Key::KEY_S));
+    inputMap->action_add_event("move_right", makeKey(Key::KEY_F));
 }
 
 #pragma endregion

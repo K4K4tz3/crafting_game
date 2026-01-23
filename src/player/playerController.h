@@ -10,6 +10,7 @@
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
 #include <godot_cpp/classes/input_event_key.hpp>
 #include <godot_cpp/classes/character_body3d.hpp>
+#include <godot_cpp/classes/input_map.hpp>
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/variant/transform3d.hpp>
@@ -43,6 +44,9 @@ private:
 
     void handleCamera(const double delta);
     void handleMove(const double delta);
+
+    static Ref<InputEventKey> makeKey(const Key a_keycode);
+    void setupDefaultInputs();
 
 protected:
     static void _bind_methods();
