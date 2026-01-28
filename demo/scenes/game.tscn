@@ -1,11 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://by13dwjw50k57"]
+[gd_scene load_steps=3 format=3 uid="uid://by13dwjw50k57"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_8cj0n"]
 
-[node name="GameManager" type="GameManager"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_8cj0n"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_8cj0n")
+[node name="GameManager" type="GameManager"]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32801, 0)
@@ -15,3 +14,12 @@ offset_right = 40.0
 offset_bottom = 23.0
 scale = Vector2(1.00496, 0.989011)
 text = "test"
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_8cj0n")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_8cj0n")

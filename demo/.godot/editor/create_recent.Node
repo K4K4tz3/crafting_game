@@ -1,4 +1,6 @@
+StaticBody3D
 CollisionShape3D
+RayCast3D
 Camera3D
 PlayerController
 Label

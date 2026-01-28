@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/node3d.hpp>
 #include <godot_cpp/classes/camera3d.hpp>
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/classes/ray_cast3d.hpp>
 
 #include <godot_cpp/classes/input.hpp>
 #include <godot_cpp/classes/input_event.hpp>
@@ -23,6 +24,7 @@ class PlayerController : public CharacterBody3D {
 
 private:
     Camera3D* m_camera = nullptr;
+    RayCast3D* m_downcast = nullptr;
 
     // debug
     bool m_showMouseMotion = false;
@@ -41,6 +43,7 @@ private:
 
 
     bool m_disableMove = false;
+    bool m_disableDownwardMotion = false;
     Vector2 m_mouseInput = Vector2{};
     Vector3 m_wasdInput = Vector3{};
 

@@ -71,6 +71,14 @@ void PlayerController::_ready() {
 
     Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_CAPTURED);
 
+    // fetch downward raycast
+    try {
+        m_downcast = get_node<RayCast3D>("Ground Cast");
+        print_line("Fetched ground cast successfully");
+    } catch (int errorCode) {
+        print_error("Failed to fetch ground cast");
+    }
+
     set_physics_process(true);
 }
 
@@ -81,6 +89,14 @@ void PlayerController::_physics_process(double delta) {
         m_mouseInput = Vector2{};
     }
 
+    UtilityFunctions::print("Ground Cast: ", m_downcast->is_colliding());
+    if (m_downcast->is_colliding()) {
+        m_disableDownwardMotion = true;
+    }
+    else {
+        m_disableDownwardMotion = false;
+    }
+
     handleMove(delta);
 }
 
@@ -88,8 +104,6 @@ void PlayerController::_input(const Ref<InputEvent> &a_event) {
     Ref<InputEventMouseMotion> mouseMotion = a_event;
     if (mouseMotion.is_valid()) {
         m_mouseInput = mouseMotion->get_relative();
-
-
     }
 
     Ref<InputEventKey> keyEvent = a_event;
@@ -195,16 +209,16 @@ void PlayerController::handleMove(const double delta) {
     m_wasdInput.x = Input::get_singleton()->get_action_strength("move_forward") - Input::get_singleton()->get_action_strength("move_backward");
     m_wasdInput.y = Input::get_singleton()->get_action_strength("move_left") - Input::get_singleton()->get_action_strength("move_right");
     m_wasdInput.z = Input::get_singleton()->get_action_strength("creative_up") - Input::get_singleton()->get_action_strength("creative_down");
-    UtilityFunctions::print("Movement Input: X ( ", m_wasdInput.x, " )", " Y ( ", m_wasdInput.y, " )");
+    //UtilityFunctions::print("Movement Input: X ( ", m_wasdInput.x, " )", " Y ( ", m_wasdInput.y, " )");
 
     // calculate & set velocity
-    Vector3 forward = -get_global_transform().basis.get_column(2);
-    Vector3 right = -get_global_transform().basis.get_column(0);
-    Vector3 down = -get_global_transform().basis.get_column(1);
-    Vector3 velocity = get_velocity();
+    Vector3 forwardVelocity = -get_global_transform().basis.get_column(2) * m_wasdInput.x * m_forwardSpeed;
+    Vector3 rightVelocity = -get_global_transform().basis.get_column(0) * m_wasdInput.y * m_sideSpeed;
+    Vector3 tempDownVelocity = -get_global_transform().basis.get_column(1) * m_wasdInput.z * m_fallSpeed;
+    Vector3 downVelocity = m_disableDownwardMotion && tempDownVelocity.y < 0 ?  Vector3{} : tempDownVelocity;
 
-    velocity = ((forward * m_wasdInput.x * m_forwardSpeed) + (right * m_wasdInput.y * m_sideSpeed) + (down * m_wasdInput.z * m_fallSpeed)) * delta;
-    UtilityFunctions::print("Velocity: ", velocity);
+    Vector3 velocity = m_disableMove ? Vector3{} : (forwardVelocity + rightVelocity + downVelocity) * delta;
+    //UtilityFunctions::print("Velocity: ", velocity);
 
     set_velocity(velocity);
     move_and_slide();
