@@ -1,0 +1,7 @@
+CompileFlags:
+  Add:
+    - -std=c++20
+    - -ID:/Programming/Projects/major_game/src
+    - -ID:/Programming/Projects/major_game/godot-cpp/include
+    - -ID:/Programming/Projects/major_game/godot-cpp/gen/include
+    - -ID:/Programming/Projects/major_game/godot-cpp/gdextension

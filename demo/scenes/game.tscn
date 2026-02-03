@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://by13dwjw50k57"]
+[gd_scene load_steps=4 format=3 uid="uid://by13dwjw50k57"]
+
+[ext_resource type="PackedScene" uid="uid://bm2nnjcjr1s13" path="res://voxel_object.tscn" id="1_uwrxv"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_8cj0n"]
 
@@ -23,3 +25,6 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("WorldBoundaryShape3D_8cj0n")
+
+[node name="VoxelObject" parent="." instance=ExtResource("1_uwrxv")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.374841, 1.12375, -2.02114)

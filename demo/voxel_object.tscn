@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://bm2nnjcjr1s13"]
+
+[node name="VoxelObject" type="VoxelObject"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00995946, -0.00789237, -0.000527859)

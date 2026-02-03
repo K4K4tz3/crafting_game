@@ -3,6 +3,7 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_vt3hn"]
 
 [node name="PlayerController" type="PlayerController"]
+showMouseMotion = true
 "Vertical Rotation Clamp Min" = -50.0
 "Forward Speed" = 100.0
 "Side Speed" = 75.0

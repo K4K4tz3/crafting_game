@@ -128,6 +128,7 @@ void PlayerController::_input(const Ref<InputEvent> &a_event) {
 
 void PlayerController::setMouseDebugState(const bool a_debugState) {
     m_showMouseMotion = a_debugState;
+    UtilityFunctions::print("Test");
 }
 bool PlayerController::getMouseDebugState() const {
     return m_showMouseMotion;

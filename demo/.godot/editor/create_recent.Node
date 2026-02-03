@@ -1,3 +1,4 @@
+VoxelObject
 StaticBody3D
 CollisionShape3D
 RayCast3D

@@ -4,6 +4,8 @@
 #include "menu/btn_loadScene.h"
 #include "manager/gameManager.h"
 #include "player/playerController.h"
+#include "voxel/voxelObject.h"
+
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
@@ -12,19 +14,23 @@
 using namespace godot;
 
 void initialize_example_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
+	if (p_level == godot::MODULE_INITIALIZATION_LEVEL_SCENE) {
+		// Managers
+		GDREGISTER_RUNTIME_CLASS(MenuManager);
+		GDREGISTER_RUNTIME_CLASS(GameManager);
+
+		// Menu Utils
+		GDREGISTER_RUNTIME_CLASS(Btn_LoadScene);
+
+		// Player
+		GDREGISTER_RUNTIME_CLASS(PlayerController);
+
+		// Voxel Stuff
+		GDREGISTER_RUNTIME_CLASS(VoxelObject);
 	}
 
-	// Managers
-	GDREGISTER_RUNTIME_CLASS(MenuManager);
-	GDREGISTER_RUNTIME_CLASS(GameManager);
-
-	// Menu Utils
-	GDREGISTER_RUNTIME_CLASS(Btn_LoadScene);
-
-	// Player
-	GDREGISTER_RUNTIME_CLASS(PlayerController);
+	if (p_level == godot::MODULE_INITIALIZATION_LEVEL_EDITOR) {
+	}
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {
