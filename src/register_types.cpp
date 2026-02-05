@@ -5,6 +5,8 @@
 #include "manager/gameManager.h"
 #include "player/playerController.h"
 #include "voxel/voxelObject.h"
+#include "plugin/editor.h"
+#include "plugin/inspector.h"
 
 
 #include <gdextension_interface.h>
@@ -14,7 +16,7 @@
 using namespace godot;
 
 void initialize_example_module(ModuleInitializationLevel p_level) {
-	if (p_level == godot::MODULE_INITIALIZATION_LEVEL_SCENE) {
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE) {
 		// Managers
 		GDREGISTER_RUNTIME_CLASS(MenuManager);
 		GDREGISTER_RUNTIME_CLASS(GameManager);
@@ -26,17 +28,18 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 		GDREGISTER_RUNTIME_CLASS(PlayerController);
 
 		// Voxel Stuff
-		GDREGISTER_RUNTIME_CLASS(VoxelObject);
-	}
+		GDREGISTER_CLASS(VoxelObject);
+		GDREGISTER_CLASS(Inspector);
 
-	if (p_level == godot::MODULE_INITIALIZATION_LEVEL_EDITOR) {
 	}
+#ifdef TOOLS_ENABLED
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE) {
+		EditorPlugins::add_by_type<MyVoxelEditor>();
+	}
+#endif
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
-	}
 }
 
 extern "C" {

@@ -33,6 +33,8 @@ public:
     ~VoxelObject();
 
     void _ready() override;
+
+    void test() { UtilityFunctions::print("hello"); };
 };
 
 }
