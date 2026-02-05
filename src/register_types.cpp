@@ -29,6 +29,7 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 
 		// Voxel Stuff
 		GDREGISTER_CLASS(VoxelObject);
+		GDREGISTER_CLASS(MyVoxelEditor);
 		GDREGISTER_CLASS(Inspector);
 
 	}

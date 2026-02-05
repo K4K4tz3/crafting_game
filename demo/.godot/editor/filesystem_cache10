@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1770298331
+::res://::1770300067
 icon.svg::CompressedTexture2D/CompressedTexture2D::2743419967948308110::1767792022::1767792031::1::::<><><>0<>0<>0cfc54efc3e2630dab684d2b52d82191<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 node_2d.tscn::PackedScene/PackedScene::6059114558078594080::1767910932::0::1::::<><><>0<>0<><>::
 voxel_object.tscn::PackedScene/PackedScene::3285238019168271576::1770160744::0::1::::<><><>0<>0<><>::
@@ -122,8 +122,8 @@ TitleContainerCharacterName.png::CompressedTexture2D/CompressedTexture2D::915303
 TitleContainerExit.png::CompressedTexture2D/CompressedTexture2D::1569826774149025222::1768311489::1768311509::1::::<><><>0<>0<>29dc521b46895ba2fb2a6a02fc4dc155<>res://.godot/imported/TitleContainerExit.png-93e1a2606d305d0ca20e0b3534279c88.ctex::
 TitleContainerSave.png::CompressedTexture2D/CompressedTexture2D::7561278211817325402::1768311489::1768311509::1::::<><><>0<>0<>1117526b89e012adf1bb3fad0cda2ef3<>res://.godot/imported/TitleContainerSave.png-b1d3eec96cd9c38abcac2cf51fd421f6.ctex::
 TitleContainerSettings.png::CompressedTexture2D/CompressedTexture2D::4384375058275646868::1768311489::1768311509::1::::<><><>0<>0<>af359e9680edf5f3c9955c52db2f0443<>res://.godot/imported/TitleContainerSettings.png-7c56d6ff6a0d28b5145c81a83df27b8c.ctex::
-::res://bin/::1770298325
-gdexample.gdextension::GDExtension::8300976403956687950::1770298167::0::1::::<><><>0<>0<><>::
+::res://bin/::1770300061
+gdexample.gdextension::GDExtension/GDExtension::8300976403956687950::1770298167::0::1::::<><><>0<>0<><>::
 ::res://prefab/::1770244527
 player.tscn::PackedScene/PackedScene::6397711602891857063::1770244527::0::1::::<><><>0<>0<><>::
 ::res://scenes/::1770244527
