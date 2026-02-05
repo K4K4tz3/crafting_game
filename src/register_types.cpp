@@ -34,13 +34,18 @@ void initialize_example_module(ModuleInitializationLevel p_level) {
 
 	}
 #ifdef TOOLS_ENABLED
-	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE) {
+	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
 		EditorPlugins::add_by_type<MyVoxelEditor>();
 	}
 #endif
 }
 
 void uninitialize_example_module(ModuleInitializationLevel p_level) {
+#ifdef TOOLS_ENABLED
+	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR) {
+		EditorPlugins::remove_by_type<MyVoxelEditor>();
+	}
+#endif
 }
 
 extern "C" {
